@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Guess Number</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <script>
+  // onload przy zaladowaniu
+    window.onload = () => {
+      submit()
+    }
+    async function submit() {
+      let status,
+        // liczenie od zera,bez optymalizacji aplikacji
+        num = 0;
+      while (status !== 'EQUAL') {
+        status = await getStatus(num)
+        document.write(num + ' - ' + status + ', ');
+        num++;
+      }
+      ('znalazlem', num - 1)
+    }
+
+    function getStatus(number) {
+      return fetch('/check', {
+          method: 'POST',
+          body: JSON.stringify({
+            number: number
+          }),
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          })
+        })
+        .then(res => res.json())
+        .then(res => res.status)
+    }
+  </script>
+  <div class="wrap">
+
+
+    <!-- <button onclick="submit()">just test</button> -->
+
+  </div>
+
+</body>
+
+</html>
